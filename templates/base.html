@@ -30,20 +30,18 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
+                        <li>logged in as {{ profile.username }}</li>
                         <li><a href="{% url 'profile' %}">Profile</a></li>
                         <li><a href="{% url 'logout' %}">Log Out</a></li>
+                        <li><a href="{% url 'issues' %}">Issue Tracker</a></li>
+                        <li><a href="{% url 'features' %}">New Features</a></li>
                     {%  else %}
                         <li><a href="{% url 'registration' %}">Register</a></li>
                         <li><a href="{% url 'login' %}">Log In</a></li>
+                        <li><a href="{% url 'issues' %}">Issue Tracker</a></li>
+                        <li><a href="{% url 'features' %}">New Features</a></li>
                     {% endif %}
-                    <li>
-                        <a href=>
-                            <i class="fa fa-shipping-cart"></i>Cart
-                            {% if product_count > 0 %}
-                            <label class="badge badge-warning">{{ product_count }}</label>
-                            {% endif %}
-                        </a>
-                    </li>
+                    
                 </ul>
             </div>
         </div>

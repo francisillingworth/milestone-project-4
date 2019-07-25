@@ -18,6 +18,8 @@ from django.contrib import admin
 from accounts import urls as urls_accounts
 from issues import urls as urls_issues
 from issues.views import all_issues
+from features import urls as urls_features
+from features.views import all_features
 from django.views import static
 from .settings import MEDIA_ROOT
 
@@ -27,5 +29,6 @@ urlpatterns = [
     url(r'^$', all_issues, name='index'),
     url(r'^accounts/', include(urls_accounts)),
     url(r'^issues/', include(urls_issues)),
+    url(r'^features/', include(urls_features)),
     url(r'^media/(?P<path>.*)$', static.serve,{'document_root' :MEDIA_ROOT}),
 ]
