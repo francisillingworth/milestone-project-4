@@ -1,5 +1,94 @@
-{% extends 'base.html' %}
-
-{% block page_title %}Home Page{% endblock %}
-
-{% block page_heading %}Home{% endblock %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Unicorn Attractor Issue Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}" >
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% block head_js %}
+    {% endblock head_js %}
+</head>
+<body>
+    <img src="https://www.contract-production.co.uk/wp-content/uploads/2012/12/Fotolia_68558828_L.jpg"></img>
+    <!-- Fixed masthead -->
+    <nav class="navbar navbar-masthead navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Unicorn Attractor</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                        <li>logged in as {{ profile.username }}</li>
+                        <li><a href="{% url 'issues' %}">Issue Tracker</a></li>
+                        <li><a href="{% url 'features' %}">New Features</a></li>
+                        <li><a href="{% url 'profile' %}">Profile</a></li>
+                        <li><a href="{% url 'logout' %}">Log Out</a></li>
+                        
+                    {%  else %}
+                        <li><a href="{% url 'issues' %}">Issue Tracker</a></li>
+                        <li><a href="{% url 'features' %}">New Features</a></li>
+                        <li><a href="{% url 'registration' %}">Register</a></li>
+                        <li><a href="{% url 'login' %}">Log In</a></li>
+                        
+                    {% endif %}
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <br>
+    <div>
+        {% if messages %}
+        <div class="alert alert-success">
+            <div class="messages">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="text-center">
+        <p>Welcome to the issue tracker and new feature proposer for the brand new Unicorn Attractor App. Here you can make us aware of any issues with the Unicorn Attractor app and also request brand new features for us to add. Issues and features will be dealt with on a popularity basis so those with the most upvotes will be dealt with first</p>
+    </div>
+    
+    <div class="row">
+        <div class = "col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-0 text-center ">
+            <div class="card enterSite">
+            <p>Got an issue or an idea to improve Unicorn Attractor? Come in and Share your thoughts.</p>
+            <a href="{% url 'issues' %}" class="btn btn-success indexButton" role="button">Enter Site</a>
+            </div>
+        </div>
+        <div class = "col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-0 text-center">
+            <div class="card">
+            <p>Login to have your say on which issues and features are acted upon next!</p>
+            <a href="{% url 'login' %}" class="btn btn-primary  indexButton" role="button">Login</a>
+            <p>Don't have an account? Register<a href="{% url 'registration' %}"> here</a></p>
+            </div>
+        </div>
+    </div>
+    
+        
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Made by Unicorn Attractors Corp 2019</p>
+        </div>
+    </footer>
+</body>
+</html>

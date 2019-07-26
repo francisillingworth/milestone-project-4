@@ -15,6 +15,7 @@
     {% endblock head_js %}
 </head>
 <body>
+    <img src="https://www.contract-production.co.uk/wp-content/uploads/2012/12/Fotolia_68558828_L.jpg"></img>
     <!-- Fixed masthead -->
     <nav class="navbar navbar-masthead navbar-default navbar-fixed-top">
         <div class="container">
@@ -30,16 +31,18 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                        <li>logged in as {{ profile.username }}</li>
+                        <li>logged in as {{ request.user.username }}</li>
+                        <li><a href="{% url 'issues' %}">Issue Tracker</a></li>
+                        <li><a href="{% url 'features' %}">New Features</a></li>
                         <li><a href="{% url 'profile' %}">Profile</a></li>
                         <li><a href="{% url 'logout' %}">Log Out</a></li>
+                        
+                    {%  else %}
                         <li><a href="{% url 'issues' %}">Issue Tracker</a></li>
                         <li><a href="{% url 'features' %}">New Features</a></li>
-                    {%  else %}
                         <li><a href="{% url 'registration' %}">Register</a></li>
                         <li><a href="{% url 'login' %}">Log In</a></li>
-                        <li><a href="{% url 'issues' %}">Issue Tracker</a></li>
-                        <li><a href="{% url 'features' %}">New Features</a></li>
+                        
                     {% endif %}
                     
                 </ul>
