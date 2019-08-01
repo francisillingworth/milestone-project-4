@@ -31,7 +31,7 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                        <li>logged in as {{ request.user.username }}</li>
+                        <li class = "profileName">Logged in as <strong>{{ request.user.username }}</strong></li>
                         <li><a href="{% url 'issues' %}">Issue Tracker</a></li>
                         <li><a href="{% url 'features' %}">New Features</a></li>
                         <li><a href="{% url 'profile' %}">Profile</a></li>
@@ -63,7 +63,7 @@
         </div>
     {% endif %}
     <div class="text-center">
-        <p>Welcome to the issue tracker and new feature proposer for the brand new Unicorn Attractor App. Here you can make us aware of any issues with the Unicorn Attractor app and also request brand new features for us to add. Issues and features will be dealt with on a popularity basis so those with the most upvotes will be dealt with first</p>
+        <p class="homePagePara">Welcome to the issue tracker and new feature proposer for the brand new Unicorn Attractor App. Here you can make us aware of any issues with the Unicorn Attractor app and also request brand new features for us to add. Issues and features will be dealt with on a popularity basis so those with the most upvotes will be dealt with first. We here at Unicorn Attractor pledge to spend a minimum of 50% of our time working on your top voted features, because of this there is a small charge of £10 to upvote a new feature.</p>
     </div>
     
     <div class="row">
@@ -85,7 +85,7 @@
         
     </div>
     
-    <footer>
+    <footer class = "foot">
         <div class="container">
             <p>Made by Unicorn Attractors Corp 2019</p>
         </div>

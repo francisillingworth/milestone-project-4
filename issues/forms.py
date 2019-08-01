@@ -1,5 +1,5 @@
 from django import forms
-from issues.models import Issue
+from .models import Issue
 from django.core.exceptions import ValidationError
 
 class NewIssueForm():

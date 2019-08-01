@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Issue
-from issues.forms import NewIssueForm
+from .forms import NewIssueForm
 
 
 # Create your views here.
@@ -10,5 +10,7 @@ def all_issues(request):
     
     
 def NewIssue(request):
-    new_issue_form = NewIssueForm
+    new_issue_form = NewIssueForm()
+    print(new_issue_form)
     return render(request, 'issues.html', {"new_issue_form": new_issue_form})
+    

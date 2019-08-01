@@ -5,7 +5,7 @@
     
     
     
-    <form action= method="POST" class="col-xs-10 col-xs-offset-1 display panel panel-default">
+    <form action= method="POST" class="col-xs-10 col-xs-offset-1 display panel panel-default ticket">
         {% csrf_token %}
         {{ new_issue_form.as_p }}
              <button class="btn btn-success" type="submit">Submit New Issue</button>
@@ -15,7 +15,7 @@
     
     
     {% for issue in issues %}
-        <div class="col-xs-10 col-xs-offset-1 display panel panel-default">
+        <div class="col-xs-10 col-xs-offset-1 display panel panel-default ticket">
             <div class="panel-body">
                 <div class="issue"></div>
 
