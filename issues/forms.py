@@ -2,12 +2,15 @@ from django import forms
 from .models import Issue
 from django.core.exceptions import ValidationError
 
-class NewIssueForm():
+class NewIssueForm(forms.ModelForm):
     """Form to add new issue"""
-    issue_name = forms.CharField(widget=forms.Textarea,)
-    issue_description = forms.CharField(widget=forms.Textarea)
+    name = forms.CharField(widget=forms.Textarea)
+    description = forms.CharField(widget=forms.Textarea)
     
     class Meta:
         model = Issue
-        fields = ['issue_name' , 'issue_description']
+        fields = ['name' , 'description']
+        
+
+        
     

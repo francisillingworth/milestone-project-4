@@ -4,11 +4,7 @@
 <div class="row row-flex">
     
      
-        <form action= method="POST" class="col-xs-10 col-xs-offset-1 display panel panel-default ticket">
-        {% csrf_token %}
-        {{ new_feature_form.as_p }}
-             <button class="btn btn-success" type="submit">Submit New Feature</button>
-    </form>
+        <p>Can't find the Feature you want adding? Add your feature to the list <a href="{% url 'NewFeature' %}">here!</a></p>
     
     
     

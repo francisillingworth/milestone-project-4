@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib import messages
 from .models import Issue
 from .forms import NewIssueForm
 
@@ -10,7 +11,20 @@ def all_issues(request):
     
     
 def NewIssue(request):
+    
+    if request.method == "POST":
+        new_issue_form = NewIssueForm(request.POST)
+        messages.success(request, "Your issue has been posted!")
+        
+        if new_issue_form.is_valid():
+            
+            
+            
+            instance = new_issue_form.save(commit=False)
+            instance.author = request.user
+            instance.save()
+            
+            
     new_issue_form = NewIssueForm()
-    print(new_issue_form)
-    return render(request, 'issues.html', {"new_issue_form": new_issue_form})
+    return render(request, 'new_issue.html', {"new_issue_form": new_issue_form})
     
