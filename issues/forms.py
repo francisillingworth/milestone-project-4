@@ -1,5 +1,5 @@
 from django import forms
-from .models import Issue
+from .models import Issue, Comment
 from django.core.exceptions import ValidationError
 
 class NewIssueForm(forms.ModelForm):
@@ -11,6 +11,15 @@ class NewIssueForm(forms.ModelForm):
         model = Issue
         fields = ['name' , 'description']
         
-
         
+class NewCommentForm(forms.ModelForm):
+    """Form to add comment"""
+    
+    comment = forms.CharField(widget=forms.Textarea)
+    
+    class Meta:
+        model = Comment
+        fields = ['comment']
+        
+
     

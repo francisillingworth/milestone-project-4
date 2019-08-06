@@ -32,8 +32,12 @@
                     </div>
                 </form>
             <p>Im having the same problem</p></p>
+           <h2>{{ issue.comment }}</h2>
+           <p>{{ comment.author }}</p>
+            <a href="{% url 'NewComment' %}">Leave comment</a>
             </div>
         </div>
     {% endfor %}
 </div>
 {% endblock %}
+

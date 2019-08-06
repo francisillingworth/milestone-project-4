@@ -10,4 +10,12 @@ class Issue(models.Model):
     
     def __str__(self):
         return self.name
+    
+class Comment(models.Model):
+    comment = models.TextField()
+    author = models.ForeignKey(User, default=None)
+    
+    
+    def __str__(self):
+        return self.name
         

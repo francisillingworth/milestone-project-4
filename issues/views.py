@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib import messages
-from .models import Issue
-from .forms import NewIssueForm
+from .models import Issue, Comment
+from .forms import NewIssueForm, NewCommentForm
 
 
 # Create your views here.
@@ -28,3 +28,22 @@ def NewIssue(request):
     new_issue_form = NewIssueForm()
     return render(request, 'new_issue.html', {"new_issue_form": new_issue_form})
     
+    
+    
+def NewComment(request):
+    
+    if request.method == "POST":
+        new_comment_form = NewCommentForm(request.POST)
+        messages.success(request, "Your comment has been posted!")
+        
+        if new_comment_form.is_valid():
+            
+            
+            
+            instance = new_comment_form.save(commit=False)
+            instance.author = request.user
+            instance.save()
+            
+            
+    new_comment_form = NewCommentForm()
+    return render(request, 'add_comment.html', {"new_comment_form": new_comment_form})
