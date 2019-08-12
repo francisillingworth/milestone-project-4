@@ -23,16 +23,16 @@ def all_issues(request):
             
             
             instance = new_comment_form.save(commit=False)
-            instance.issue = issue
+            instance.name = issue
             instance.author = request.user
             instance.save()
             
         
             
     new_comment_form = NewCommentForm()
+
         
-        
-    return render(request,"issues.html", {"issues":issues, "new_comment_form": new_comment_form, "comments":comments})
+    return render(request,"issues.html", {"issues":issues, "new_comment_form": new_comment_form})
     
     
 def NewIssue(request):

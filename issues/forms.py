@@ -15,7 +15,7 @@ class NewIssueForm(forms.ModelForm):
 class NewCommentForm(forms.ModelForm):
     """Form to add comment"""
     
-    comment = forms.CharField(widget=forms.Textarea)
+    #comment = forms.CharField(widget=forms.Textarea)
     
     class Meta:
         model = Comment

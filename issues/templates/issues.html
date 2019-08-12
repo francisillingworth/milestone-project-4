@@ -1,43 +1,42 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="row row-flex">
-    
-    
-    
-    <p>Can't find the issue your having? Add your issue to the list <a href="{% url 'NewIssue' %}">here!</a></p>
-    
-    
-    
-    
+
+
+
+    <p>Can't find the issue you're having? Add your issue to the list <a href="{% url 'NewIssue' %}">here!</a></p>
+
+
+
+
     {% for issue in issues %}
-        <div class="col-xs-10 col-xs-offset-1 display panel panel-default ticket">
-            <div class="panel-body">
-                <div class="issue"></div>
+    <div class="col-xs-10 col-xs-offset-1 display panel panel-default ticket">
+        <div class="panel-body">
+            <div class="issue"></div>
 
-                <h3>{{ issue.name }}</h3>
-                <p class="issue-description">{{ issue.description }}</p>
-                <p>{{ issue.author }}</p>
-                
-
-                <form method="post" action="">
-                    {% csrf_token %}
-                    <div class="input-group">
-                        <form>
-                        <textarea name="issue-comment" type="text"  placeholder="Leave a comment (300 character max length" max length= "300"></textarea>
-                        <span class="input-group-btn">
-                            <button class="btn btn-success" type="submit">Submit comment</button>
-                        </span>
-                        </form>
-                    </div>
-                </form>
-            <p>Im having the same problem</p></p>
-           <h2>{{ issue.comment }}</h2>
-           <p>{{ comment.author }}</p>
-            <a href="{% url 'NewComment' %}">Leave comment</a>
-            </div>
+            <h3>{{ issue.name }}</h3>
+            <p class="issue-description">{{ issue.description }}</p>
+            <p>{{ issue.author }}</p>
+            {% if user.is_authenticated %}
+            <button>Upvote this issue</button><br><br>
+            {% else %}
+            {% endif %}
+            
+            {% if user.is_authenticated %}
+            <form method="POST">
+                {% csrf_token %} {{ new_comment_form.as_p }}
+                <input value="{{ issue.id }}" type="hidden" name="issue">
+                <button class="btn btn-success" type="submit">Submit New comment</button>
+            </form>
+            {% else %}
+            <p><a href="{% url 'login' %}">Login</a> to comment</p>
+            {% endif %}
+            {% for comment in comments %}
+            {% if issues.comment.issue == issues.issue.id %}
+        <p>{{ comment }}</p>
+        {% endif %}
+        {% endfor %}
         </div>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}
-
