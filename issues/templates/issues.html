@@ -12,8 +12,19 @@
             <p class="issue-description">{{ issue.description }}</p>
             
             {% if user.is_authenticated %}
-            <button>Upvote this issue</button><br><br>
+            
+            
+            
+            <form action="{% url 'like_issue' %}" method="post"></form>
+            {% csrf_token %}
+            <button type='submit' name='issue_id' value="{{ issue.id }}" class = "btn btn-primary">like</button>
+           
+           
+           
+           
+           
             {% else %}
+            
             {% endif %}
             {% if user.is_authenticated %}
             

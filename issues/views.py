@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from .models import Issue, Comment
 from .forms import NewIssueForm, NewCommentForm
+from django.http import HttpResponseRedirect
 
 
 # Create your views here.
@@ -69,3 +70,13 @@ def NewComment(request):
             
     new_comment_form = NewCommentForm()
     return render(request, 'add_comment.html', {"new_comment_form": new_comment_form})
+    
+    
+    
+    
+def like_issue(request):
+    issue = get_object_or_404(Issue, id=request.POST.get('issue_id'))
+    issue.likes.ad(request.user)
+    return HttpResponseRedirect(issue.get_absolute_url())
+    
+    

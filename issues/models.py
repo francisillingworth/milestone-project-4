@@ -6,6 +6,7 @@ class Issue(models.Model):
     name = models.CharField(max_length=254, default='')
     description = models.TextField()
     author = models.ForeignKey(User, default=None)
+    likes = models.ManyToManyField(User, related_name= 'likes', blank = True)
     
     
     def __str__(self):
