@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from .models import Feature, Comment
 from .forms import NewFeatureForm, NewCommentForm
@@ -69,3 +69,8 @@ def NewComment(request):
             
     new_comment_form = NewCommentForm()
     return render(request, 'add_comment.html', {"new_comment_form": new_comment_form})
+
+def like_feature(request):
+    feature = get_object_or_404(Feature, id=request.POST.get('feature_id'))
+    feature.likes.add(request.user)
+    return redirect(reverse('features'))
