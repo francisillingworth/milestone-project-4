@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from .models import Issue, Comment
 from .forms import NewIssueForm, NewCommentForm
@@ -76,7 +76,7 @@ def NewComment(request):
     
 def like_issue(request):
     issue = get_object_or_404(Issue, id=request.POST.get('issue_id'))
-    issue.likes.ad(request.user)
-    return HttpResponseRedirect(issue.get_absolute_url())
+    issue.likes.add(request.user)
+    return redirect(reverse('issues'))
     
     

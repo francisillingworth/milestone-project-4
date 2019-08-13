@@ -15,16 +15,13 @@
             
             
             
-            <form action="{% url 'like_issue' %}" method="post"></form>
+            <form action="{% url 'like_issue' %}" method="post">
             {% csrf_token %}
-            <button type='submit' name='issue_id' value="{{ issue.id }}" class = "btn btn-primary">like</button>
-           
-           
-           
-           
-           
+            <input value="{{ issue.id }}" type="hidden" name="issue">
+            <button type='submit' name='issue_id' value="{{ issue.id }}" class = "btn btn-primary">Like</button>
+            </form>
+            {{ issue.likes.count }}
             {% else %}
-            
             {% endif %}
             {% if user.is_authenticated %}
             
