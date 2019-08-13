@@ -1,37 +1,45 @@
-{% extends 'base.html' %}
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="row row-flex">
     
-     
-        <p>Can't find the Feature you want adding? Add your feature to the list <a href="{% url 'NewFeature' %}">here!</a></p>
+    <p>Can't find the issue you're having? Add your issue to the list <a href="{% url 'NewFeature' %}">here!</a></p>
     
-    
-    
-    
-   {% for feature in features %}
-        <div class="col-xs-10 col-xs-offset-1 display panel panel-default ticket">
-            <div class="panel-body">
-                <div class="feature"></div>
+    {% for feature in features %}
+    <div class="col-xs-10 col-xs-offset-1 display panel panel-default ticket">
+        <div class="panel-body">
+            <div class="issue"></div>
 
-                <h3>{{ feature.name }}</h3>
-                <p class="feature-description">{{ feature.description }}</p>
-                
-
-                <form method="post" action="">
-                    {% csrf_token %}
-                    <div class="input-group">
-                        <form>
-                        <textarea name="feature-comment" type="text"  placeholder="Leave a comment (300 character max length" max length= "300"></textarea>
-                        <span class="input-group-btn">
-                            <button class="btn btn-success" type="submit">Submit Comment</button>
-                        </span>
-                        </form>
-                    </div>
-                </form>
-                <p>I want to vote to have this feature implemented quicker</p></p>
-            </div>
+            <h3>{{ feature.name }}</h3><p>posted by {{ feature.author }}</p>
+            <p class="issue-description">{{ feature.description }}</p>
+            
+            {% if user.is_authenticated %}
+            <button>Upvote this issue</button><br><br>
+            {% else %}
+            {% endif %}
+            {% if user.is_authenticated %}
+            
+            
+            
+            <p>View all {{ feature.comments.count }} comments.</p>
+        {% for comment in feature.comments.all %}
+        <p>{{ comment.comment }}</p>
+        
+        {% endfor %}
+        
+        
+        
+            <form method="POST">
+                {% csrf_token %} {{ new_comment_form.as_p }}
+                <input value="{{ feature.id }}" type="hidden" name="feature">
+                <button class="btn btn-success" type="submit">Submit New comment</button>
+            </form>
+            {% else %}
+            <p><a href="{% url 'login' %}">Login</a> to comment</p>
+            {% endif %}
         </div>
+        
+    </div>
+    
     {% endfor %}
 </div>
 {% endblock %}
+

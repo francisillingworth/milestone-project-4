@@ -14,7 +14,7 @@ class Issue(models.Model):
 class Comment(models.Model):
     comment = models.TextField()
     author = models.ForeignKey(User, default=None)
-    issue = models.ForeignKey(Issue, default=None, null=True)
+    issue = models.ForeignKey('issues.Issue', default=None, null=True, on_delete=models.CASCADE, related_name='comments')
     
     
     def __str__(self):

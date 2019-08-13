@@ -1,27 +1,32 @@
 {% extends 'base.html' %} {% block content %}
 <div class="row row-flex">
-
-
-
+    
     <p>Can't find the issue you're having? Add your issue to the list <a href="{% url 'NewIssue' %}">here!</a></p>
-
-
-
-
+    
     {% for issue in issues %}
     <div class="col-xs-10 col-xs-offset-1 display panel panel-default ticket">
         <div class="panel-body">
             <div class="issue"></div>
 
-            <h3>{{ issue.name }}</h3>
+            <h3>{{ issue.name }}</h3><p>posted by {{ issue.author }}</p>
             <p class="issue-description">{{ issue.description }}</p>
-            <p>{{ issue.author }}</p>
+            
             {% if user.is_authenticated %}
             <button>Upvote this issue</button><br><br>
             {% else %}
             {% endif %}
-            
             {% if user.is_authenticated %}
+            
+            
+            
+            <p>View all {{ issue.comments.count }} comments.</p>
+        {% for comment in issue.comments.all %}
+        <p>{{ comment.comment }}</p>
+        
+        {% endfor %}
+        
+        
+        
             <form method="POST">
                 {% csrf_token %} {{ new_comment_form.as_p }}
                 <input value="{{ issue.id }}" type="hidden" name="issue">
@@ -30,13 +35,10 @@
             {% else %}
             <p><a href="{% url 'login' %}">Login</a> to comment</p>
             {% endif %}
-            {% for comment in comments %}
-            {% if issues.comment.issue == issues.issue.id %}
-        <p>{{ comment }}</p>
-        {% endif %}
-        {% endfor %}
         </div>
+        
     </div>
+    
     {% endfor %}
 </div>
 {% endblock %}

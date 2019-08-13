@@ -27,10 +27,7 @@ def all_issues(request):
             instance.author = request.user
             instance.save()
             
-        
-            
-    new_comment_form = NewCommentForm()
-        
+    
         
     return render(request,"issues.html", {"issues":issues, "new_comment_form": new_comment_form, "comments":comments})
     
