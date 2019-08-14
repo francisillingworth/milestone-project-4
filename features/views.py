@@ -7,6 +7,7 @@ from .forms import NewFeatureForm, NewCommentForm
 # Create your views here.
 def all_features(request):
     features= Feature.objects.all()
+    features = sorted(features, key=lambda feature: feature.likes.count(), reverse=True)
     comments= Comment.objects.all()
     new_comment_form = NewCommentForm
     
@@ -72,5 +73,6 @@ def NewComment(request):
 
 def like_feature(request):
     feature = get_object_or_404(Feature, id=request.POST.get('feature_id'))
+    messages.success(request, "Thank you for liking this feature, the features with the most likes will be worked on first!")
     feature.likes.add(request.user)
     return redirect(reverse('features'))

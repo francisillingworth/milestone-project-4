@@ -7,11 +7,17 @@
 {% block page_heading %}User Registration{% endblock %}
 
 {% block content %}
+<div class="row">
+<div class = "col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2">
+{% if user.is_authenticated %}
+{% else %}
 <p> If you already have an account, you can <a href="{% url 'login' %}">sign in</a></p>
-
+{% endif %}
 <form method ="POST">
         {% csrf_token %}
     {{ registration_form | as_bootstrap }}
     <button type ="submit" class="btn btn-default">Register</button>
     </form>
+</div>
+</div>
 {% endblock %}

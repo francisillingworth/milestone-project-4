@@ -1,52 +1,49 @@
 {% extends 'base.html' %} {% block content %}
 <div class="row row-flex">
-    
-    <p>Can't find the issue you're having? Add your issue to the list <a href="{% url 'NewIssue' %}">here!</a></p>
-    
-    {% for issue in issues %}
-    <div class="col-xs-10 col-xs-offset-1 display panel panel-default ticket">
-        <div class="panel-body">
-            <div class="issue"></div>
-
-            <h3>{{ issue.name }}</h3><p>posted by {{ issue.author }}</p>
-            <p class="issue-description">{{ issue.description }}</p>
-            
-            {% if user.is_authenticated %}
-            
-            
-            
-            <form action="{% url 'like_issue' %}" method="post">
-            {% csrf_token %}
-            <input value="{{ issue.id }}" type="hidden" name="issue">
-            <button type='submit' name='issue_id' value="{{ issue.id }}" class = "btn btn-primary">Like</button>
-            </form>
-            {{ issue.likes.count }}
-            {% else %}
-            {% endif %}
-            {% if user.is_authenticated %}
-            
-            
-            
-            <p>View all {{ issue.comments.count }} comments.</p>
-        {% for comment in issue.comments.all %}
-        <p>{{ comment.comment }}</p>
-        
-        {% endfor %}
-        
-        
-        
-            <form method="POST">
-                {% csrf_token %} {{ new_comment_form.as_p }}
-                <input value="{{ issue.id }}" type="hidden" name="issue">
-                <button class="btn btn-success" type="submit">Submit New comment</button>
-            </form>
-            {% else %}
-            <p><a href="{% url 'login' %}">Login</a> to comment</p>
-            {% endif %}
-        </div>
-        
+    {% if user.is_authenticated %}
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 display panel panel-default ticket">
+        <h1>Add your own Issue</h1>
+        <p>Can't find the issue you're having? Add your issue to the list <a href="{% url 'NewIssue' %}">here!</a></p>
     </div>
-    
+    {% else %} {% endif %} {% for issue in issues %}
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 display panel panel-default ticket">
+        <div class="panel-body">
+
+
+            <h3><strong>{{ issue.name }}</strong> - posted by {{ issue.author }}</h3>
+            
+            <p class="issue-description">{{ issue.description }}</p>
+
+            {% if user.is_authenticated %}
+            <form action="{% url 'like_issue' %}" method="post">
+                {% csrf_token %}
+                <input value="{{ issue.id }}" type="hidden" name="issue">
+                <button type='submit' name='issue_id' value="{{ issue.id }}" class="btn btn-primary">Like</button>
+            </form>
+            <p>{{ issue.likes.count }} likes</p>
+            {% else %}
+            {% endif %}
+            {% if user.is_authenticated %}
+
+            <button class="" id="view_comments">View all {{ issue.comments.count }} comments.</button>
+            <div class="comments" id="comments">
+
+
+                {% for comment in issue.comments.all %}
+                <p>{{ comment.comment }} - by {{ comment.author }}</p>
+                {% endfor %}
+
+                <form method="POST">
+                    {% csrf_token %} {{ new_comment_form.as_p }}
+                    <input value="{{ issue.id }}" type="hidden" name="issue">
+                    <button class="btn btn-success" type="submit">Submit New comment</button>
+                </form>
+                {% else %}
+                <p><a href="{% url 'login' %}">Login</a> to comment</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
     {% endfor %}
 </div>
 {% endblock %}

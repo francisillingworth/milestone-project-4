@@ -76,6 +76,7 @@ def NewComment(request):
     
 def like_issue(request):
     issue = get_object_or_404(Issue, id=request.POST.get('issue_id'))
+    messages.success(request, "Thank you for liking this issue, the issues with the most likes will be worked on first!")
     issue.likes.add(request.user)
     return redirect(reverse('issues'))
     

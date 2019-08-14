@@ -1,55 +1,67 @@
 {% extends 'base.html' %} {% block content %}
 <div class="row row-flex">
+    {% if user.is_authenticated %}
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
+        <h1>Add your own feature</h1>
+        <p>Can't find the feature you're having? Add your issue to the list <a href="{% url 'NewFeature' %}">here!</a></p>
+    </div>
+    {% else %}
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
+    <p><a href="{% url 'login' %}">Login</a> to add your own feature</p>
+    </div>
+    {% endif %}
     
-    <p>Can't find the issue you're having? Add your issue to the list <a href="{% url 'NewFeature' %}">here!</a></p>
+    
     
     {% for feature in features %}
-    <div class="col-xs-10 col-xs-offset-1 display panel panel-default ticket">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
         <div class="panel-body">
-            <div class="issue"></div>
 
-            <h3>{{ feature.name }}</h3><p>posted by {{ feature.author }}</p>
-            <p class="issue-description">{{ feature.description }}</p>
+
+            <h3><strong>{{ feature.name }}</strong> - posted by {{ feature.author }}</h3>
             
+            <p class="description">{{ feature.description }}</p>
+
             {% if user.is_authenticated %}
-            
+            <div class="likes"> 
             <form action="{% url 'like_feature' %}" method="post">
-            {% csrf_token %}
-            <input value="{{ feature.id }}" type="hidden" name="feature">
-            <button type='submit' name='feature_id' value="{{ feature.id }}" class = "btn btn-primary">Like</button>
-            </form>
-            {{ feature.likes.count }}
-            
-            
-            
-            
-            {% else %}
-            {% endif %}
-            {% if user.is_authenticated %}
-            
-            
-            
-            <p>View all {{ feature.comments.count }} comments.</p>
-        {% for comment in feature.comments.all %}
-        <p>{{ comment.comment }}</p>
-        
-        {% endfor %}
-        
-        
-        
-            <form method="POST">
-                {% csrf_token %} {{ new_comment_form.as_p }}
+                {% csrf_token %}
                 <input value="{{ feature.id }}" type="hidden" name="feature">
-                <button class="btn btn-success" type="submit">Submit New comment</button>
+                <button type='submit' name='feature_id' value="{{ feature.id }}" class="btn btn-primary">Like</button>
             </form>
-            {% else %}
-            <p><a href="{% url 'login' %}">Login</a> to comment</p>
-            {% endif %}
+            <p>{{ feature.likes.count }} likes</p>
+            </div>
+            {% else %} {% endif %} {% if user.is_authenticated %}
+            
+            
+            
+            
+            <p class="commentLink">This Issue has {{ feature.comments.count }} Comments </p>
+            <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
+            
+            
+            
+            <div class="comments" id="comments-{{ forloop.counter }}">
+
+                {% for comment in feature.comments.all %}
+                <p><strong>{{ comment.comment }}</strong> - by {{ comment.author }}</p>
+
+                {% endfor %}
+
+            </div>
+
+                <form method="POST">
+                    {% csrf_token %} {{ new_comment_form.as_p }}
+                    <input value="{{ feature.id }}" type="hidden" name="feature">
+                    <button class="btn btn-success" type="submit">Submit New comment</button>
+                </form>
+                {% else %}
+                <p><a href="{% url 'login' %}">Login</a> to comment</p>
+                {% endif %}
+            
         </div>
-        
     </div>
-    
+
     {% endfor %}
 </div>
 {% endblock %}
-
