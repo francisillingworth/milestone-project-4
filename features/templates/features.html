@@ -31,12 +31,18 @@
             </form>
             <p>{{ feature.likes.count }} likes</p>
             </div>
-            {% else %} {% endif %} {% if user.is_authenticated %}
+            {% else %}
+            <div class="likes"> 
+            <p>{{ feature.likes.count }} likes</p>
+            </div>
+            {% endif %}
             
             
+            {% if user.is_authenticated %}
             
             
-            <p class="commentLink">This Issue has {{ feature.comments.count }} Comments </p>
+
+            <p class="commentLink">This Feature has {{ feature.comments.count }} Comments </p>
             <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
             
             
@@ -50,13 +56,27 @@
 
             </div>
 
-                <form method="POST">
+                <form class="commentLabel" method="POST">
                     {% csrf_token %} {{ new_comment_form.as_p }}
                     <input value="{{ feature.id }}" type="hidden" name="feature">
                     <button class="btn btn-success" type="submit">Submit New comment</button>
                 </form>
                 {% else %}
-                <p><a href="{% url 'login' %}">Login</a> to comment</p>
+                <p class="commentLink">This Feature has {{ feature.comments.count }} Comments </p>
+            <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
+            
+            
+            
+            <div class="comments" id="comments-{{ forloop.counter }}">
+
+                {% for comment in feature.comments.all %}
+                <p><strong>{{ comment.comment }}</strong> - by {{ comment.author }}</p>
+
+                {% endfor %}
+
+            </div>
+
+                <p class="loginToComment"><a href="{% url 'login' %}">Login</a> to comment or upvote issues and features</p>
                 {% endif %}
             
         </div>
@@ -64,4 +84,28 @@
 
     {% endfor %}
 </div>
+<div class="text-center">
+{% if features.has_other_pages %}
+  <ul class="pagination">
+    {% if features.has_previous %}
+      <li><a href="?page={{ features.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in features.paginator.page_range %}
+      {% if features.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if features.has_next %}
+      <li><a href="?page={{ features.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</div>
+
 {% endblock %}

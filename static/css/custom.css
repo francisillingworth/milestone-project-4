@@ -101,10 +101,10 @@ img {
 }
 
 
-.profileName{
+li.profileName{
     color: white;
     margin-left: 13px;
-    margin-bottom: 8px;
+    margin-top: 15px;
     
 }
 
@@ -136,10 +136,6 @@ img {
 }
 
 
-.see_less{
-    color: #2fa4e7;
-}
-
 .see_less:hover {
     cursor: pointer;
 }
@@ -155,12 +151,18 @@ img {
 
 .showComments{
     margin-left: 10px;
+    color:#2fa4e7;
 }
 
 .commentLabel{
     margin-top: 10px
 }
 
-label.#id_comment{
-    display: none
+.commentForm{
+    margin-top:10px;
 }
+
+.loginToComment{
+    margin-top: 10px
+}
+

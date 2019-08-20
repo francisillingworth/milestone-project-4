@@ -2,12 +2,22 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from .models import Feature, Comment
 from .forms import NewFeatureForm, NewCommentForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
 def all_features(request):
     features= Feature.objects.all()
     features = sorted(features, key=lambda feature: feature.likes.count(), reverse=True)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(features, 3)
+    try:
+        features = paginator.page(page)
+    except PageNotAnInteger:
+        features = paginator.page(1)
+    except EmptyPage:
+        features = paginator.page(paginator.num_pages)
+    
     comments= Comment.objects.all()
     new_comment_form = NewCommentForm
     

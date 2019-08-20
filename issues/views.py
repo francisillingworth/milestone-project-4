@@ -2,12 +2,22 @@ from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from .models import Issue, Comment
 from .forms import NewIssueForm, NewCommentForm
-from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
 def all_issues(request):
     issues= Issue.objects.all()
+    issues = sorted(issues, key=lambda issue: issue.likes.count(), reverse=True)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(issues, 3)
+    try:
+        issues = paginator.page(page)
+    except PageNotAnInteger:
+        issues = paginator.page(1)
+    except EmptyPage:
+        issues = paginator.page(paginator.num_pages)
+
     comments= Comment.objects.all()
     new_comment_form = NewCommentForm
     
@@ -70,7 +80,6 @@ def NewComment(request):
             
     new_comment_form = NewCommentForm()
     return render(request, 'add_comment.html', {"new_comment_form": new_comment_form})
-    
     
     
     

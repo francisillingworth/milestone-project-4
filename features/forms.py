@@ -15,7 +15,7 @@ class NewFeatureForm(forms.ModelForm):
 class NewCommentForm(forms.ModelForm):
     """Form to add comment"""
     
-    comment = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control commentLabel','label':'' ,'placeholder':'(300 characters max)'}))
+    comment = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control commentLabel' ,'placeholder':'(300 characters max)'}), label="Enter a comment", max_length=300)
     
     class Meta:
         model = Comment
