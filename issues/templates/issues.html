@@ -9,7 +9,7 @@
     </div>
     {% else %}
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
-    <p><a href="{% url 'login' %}">Login</a> to add your own issue</p>
+    <p class= "likesText"><a href="{% url 'login' %}">Login</a> to add your own issue</p>
     </div>
     {% endif %}
     
@@ -19,22 +19,23 @@
         <div class="panel-body">
 
 
-            <h3><strong>{{ issue.name }}</strong> - posted by {{ issue.author }}</h3>
+            <h2><strong>{{ issue.name }}</strong> - posted by {{ issue.author }}</h2>
             
             <p class="description">{{ issue.description }}</p>
 
             {% if user.is_authenticated %}
             <div class="likes"> 
+            <p class ="likesText">{{ issue.likes.count }} Like(s)</p>
             <form action="{% url 'like_issue' %}" method="post">
                 {% csrf_token %}
                 <input value="{{ issue.id }}" type="hidden" name="issue">
-                <button type='submit' name='issue_id' value="{{ issue.id }}" class="btn btn-primary">Like</button>
+                <button type='submit' name='issue_id' value="{{ issue.id }}" class="btn btn-primary">Like this Issue</button>
             </form>
-            <p>{{ issue.likes.count }} likes</p>
+            
             </div>
             {% else %}
             <div class="likes"> 
-            <p>{{ issue.likes.count }} likes</p>
+            <p class ="likesText">{{ issue.likes.count }} Like(s)</p>
             </div>
             {% endif %}
             
