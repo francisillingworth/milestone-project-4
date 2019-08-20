@@ -7,7 +7,22 @@ from accounts.forms import UserLoginForm, UserRegistrationForm
 
 def index(request):
     """Return the index.html file"""
-    return render(request,  'index.html')
+    if request.method == "POST":
+        login_form = UserLoginForm(request.POST)
+
+        if login_form.is_valid():
+            user = auth.authenticate(username=request.POST['username'],
+                                    password=request.POST['password'])
+            messages.success(request, "You have successfully logged in!")
+
+            if user:
+                auth.login(user=user, request=request)
+                return redirect(reverse('index'))
+            else:
+                login_form.add_error(None, "Your username or password is incorrect")
+    else:
+        login_form = UserLoginForm()
+    return render(request,  'index.html', {'login_form': login_form} )
 
 @login_required
 def logout(request):
@@ -31,7 +46,7 @@ def login(request):
 
             if user:
                 auth.login(user=user, request=request)
-                return redirect(reverse('issues'))
+                return redirect(reverse('index'))
             else:
                 login_form.add_error(None, "Your username or password is incorrect")
     else:
