@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.contrib import messages
 from .models import Feature, Comment
-from .forms import NewFeatureForm, NewCommentForm
+from .forms import NewFeatureForm, NewCommentForm, MakePaymentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
+import stripe
 
 # Create your views here.
 def all_features(request):
@@ -83,6 +85,40 @@ def NewComment(request):
 
 def like_feature(request):
     feature = get_object_or_404(Feature, id=request.POST.get('feature_id'))
-    messages.success(request, "Thank you for liking this feature, the features with the most likes will be worked on first!")
+    messages.success(request, "Thank you for liking this feature, to confirm this Like please complete the payment form below. Remember the features with the highest number of likes will be worked on first!")
     feature.likes.add(request.user)
-    return redirect(reverse('features'))
+    return redirect(reverse('checkout'))
+    
+stripe.api_key = settings.STRIPE_SECRET
+
+
+@login_required()
+def checkout(request):
+    if request.method == "POST":
+        payment_form = MakePaymentForm(request.POST)
+
+        if payment_form.is_valid():
+            
+            try:
+                customer = stripe.Charge.create(
+                    amount=1000,
+                    currency="EUR",
+                    description=request.user.email,
+                    card=payment_form.cleaned_data['stripe_id']
+                )
+            except stripe.error.CardError:
+                messages.error(request, "Your card was declined!")
+            
+            if customer.paid:
+                messages.error(request, "You have successfully paid")
+                return redirect(reverse('features'))
+            else:
+                messages.error(request, "Unable to take payment")
+        else:
+            print(payment_form.errors)
+            messages.error(request, "We were unable to take a payment with that card!")
+    else:
+        payment_form = MakePaymentForm()
+        
+    
+    return render(request, "checkout.html", { "payment_form": payment_form, "publishable": settings.STRIPE_PUBLISHABLE})
