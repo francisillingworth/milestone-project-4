@@ -5,6 +5,8 @@ from .forms import NewIssueForm, NewCommentForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
+
+
 # Create your views here.
 def all_issues(request):
     issues= Issue.objects.all()
