@@ -1,53 +1,65 @@
 {% extends 'base.html' %} {% block content %}
+<div class="modal text-center" tabindex="-1" role="dialog" id="explainFeaturesModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Features</h1>
+
+            </div>
+            <div class="modal-body">
+
+                <p class="homePagePara">At Unicorn Attractor we are never fully satisfied. We welcome any new feature ideas that will improve Unicorn Attractor offerings so please send us your ideas and those with the most likes we will dedicate a guarantted 50% of our time
+                    to developing. Please note there is a small fee of £10 to like a feaure that will allow us to continue to prioritise new feature development.</p>
+                <button class="btn btn-success center" data-dismiss="modal" type="submit">Continue</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="row row-flex">
     {% if user.is_authenticated %}
-    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket  pageTop">
         <h1>Add your own feature</h1>
         <p>Can't find the feature you're having? Add your issue to the list <a href="{% url 'NewFeature' %}">here!</a></p>
     </div>
     {% else %}
-    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
-    <p class= "likesText"><a href="{% url 'login' %}">Login</a> to add your own feature</p>
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket pageTop">
+        <p class="likesText"><a href="{% url 'login' %}">Login</a> to add your own feature</p>
     </div>
-    {% endif %}
-    
-    
-    
-    {% for feature in features %}
+    {% endif %} {% for feature in features %}
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
         <div class="panel-body">
 
 
             <h2><strong>{{ feature.name }}</strong> - posted by {{ feature.author }}</h2>
-            
+
             <p class="description">{{ feature.description }}</p>
 
             {% if user.is_authenticated %}
-            <div class="likes"> 
-            <p class="likesText">{{ feature.likes.count }} Like(s)</p>
-            <form action="{% url 'like_feature' %}" method="post">
-                {% csrf_token %}
-                <input value="{{ feature.id }}" type="hidden" name="feature">
-                <button type='submit' name='feature_id' value="{{ feature.id }}" class="btn btn-primary">Like this Feature</button>
-            </form>
-            
+            <div class="likes">
+                <p class="likesText">{{ feature.likes.count }} Like(s)</p>
+                <form action="{% url 'like_feature' %}" method="post">
+                    {% csrf_token %}
+                    <input value="{{ feature.id }}" type="hidden" name="feature">
+                    <button type='submit' name='feature_id' value="{{ feature.id }}" class="btn btn-primary">Like this Feature</button>
+                </form>
+
             </div>
             {% else %}
-            <div class="likes"> 
-            <p class ="likesText">{{ feature.likes.count }} Like(s)</p>
+            <div class="likes">
+                <p class="likesText">{{ feature.likes.count }} Like(s)</p>
             </div>
-            {% endif %}
-            
-            
-            {% if user.is_authenticated %}
-            
-            
+            {% endif %} {% if user.is_authenticated %}
+
+
 
             <p class="commentLink">This Feature has {{ feature.comments.count }} Comments </p>
             <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
-            
-            
-            
+
+
+
             <div class="comments" id="comments-{{ forloop.counter }}">
 
                 {% for comment in feature.comments.all %}
@@ -57,17 +69,17 @@
 
             </div>
 
-                <form class="commentLabel" method="POST">
-                    {% csrf_token %} {{ new_comment_form.as_p }}
-                    <input value="{{ feature.id }}" type="hidden" name="feature">
-                    <button class="btn btn-success" type="submit">Submit New comment</button>
-                </form>
-                {% else %}
-                <p class="commentLink">This feature has {{ feature.comments.count }} comment(s) </p>
+            <form class="commentLabel" method="POST">
+                {% csrf_token %} {{ new_comment_form.as_p }}
+                <input value="{{ feature.id }}" type="hidden" name="feature">
+                <button class="btn btn-success" type="submit">Submit New comment</button>
+            </form>
+            {% else %}
+            <p class="commentLink">This feature has {{ feature.comments.count }} comment(s) </p>
             <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
-            
-            
-            
+
+
+
             <div class="comments" id="comments-{{ forloop.counter }}">
 
                 {% for comment in feature.comments.all %}
@@ -77,9 +89,9 @@
 
             </div>
 
-                <p class="loginToComment"><a href="{% url 'login' %}">Login</a> to comment or upvote issues and features</p>
-                {% endif %}
-            
+            <p class="loginToComment"><a href="{% url 'login' %}">Login</a> to comment or upvote issues and features</p>
+            {% endif %}
+
         </div>
     </div>
 
@@ -87,27 +99,24 @@
 </div>
 
 <div class="text-center">
-{% if features.has_other_pages %}
-  <ul class="pagination">
-    {% if features.has_previous %}
-      <li><a href="?page={{ features.previous_page_number }}">&laquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in features.paginator.page_range %}
-      {% if features.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
+    {% if features.has_other_pages %}
+    <ul class="pagination">
+        {% if features.has_previous %}
+        <li><a href="?page={{ features.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+        {% endif %} {% for i in features.paginator.page_range %} {% if features.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+        </li>
+        {% else %}
         <li><a href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
-    {% if features.has_next %}
-      <li><a href="?page={{ features.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
+        {% endif %} {% endfor %} {% if features.has_next %}
+        <li><a href="?page={{ features.next_page_number }}">&raquo;</a></li>
+        {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+    </ul>
     {% endif %}
-  </ul>
-{% endif %}
 
 
 </div>

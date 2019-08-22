@@ -33,11 +33,13 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
                     <li class="profileName">Logged in as <strong>{{ request.user.username }}</strong></li>
+                    <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#howItWorksModal">How it works!</a></li>
                     <li><a href="{% url 'issues' %}">Issue Tracker</a></li>
                     <li><a href="{% url 'features' %}">New Features</a></li>
                     <li><a href="{% url 'logout' %}">Log Out</a></li>
 
                     {% else %}
+                    <li><a class="dropdown-item" href="#" data-toggle="modal" data-target="#howItWorksModal">How it works!</a></li>
                     <li><a href="{% url 'issues' %}">Issue Tracker</a></li>
                     <li><a href="{% url 'features' %}">New Features</a></li>
                     <li><a href="{% url 'registration' %}">Register</a></li>
@@ -59,14 +61,7 @@
                 {% for message in messages %} {{ message }} {% endfor %}
             </div>
         </div>
-        {% endif %}
-        <div class="text-center">
-            <p class="homePagePara">Welcome to the issue tracker and new feature proposer for the brand new Unicorn Attractor App. Here you can make us aware of any issues with the Unicorn Attractor app and also request brand new features for us to add. Issues and features will
-                be dealt with on a popularity basis so those with the most upvotes will be dealt with first. We here at Unicorn Attractor pledge to spend a minimum of 50% of our time working on your top voted features, because of this there is a small
-                charge of £10 to upvote a new feature.</p>
-        </div>
-
-        {% if user.is_authenticated %}
+        {% endif %} {% if user.is_authenticated %}
         <div class="row">
             <div class="col-xs-12  col-sm-6 col-sm-offset-0 text-center ">
                 <div class="card enterSite">
@@ -87,8 +82,7 @@
             <div class="col-xs-12  col-sm-6 col-sm-offset-0 text-left ">
                 <div class="card">
                     <form method="POST">
-                        {% csrf_token %} 
-                        {{ login_form | as_bootstrap }}
+                        {% csrf_token %} {{ login_form | as_bootstrap }}
                         <button type="submit" class="btn btn-default">Login</button>
                     </form>
                     <p class="resetPassword"><a href="{% url 'password_reset' %}">Reset Password</a></p>
@@ -105,7 +99,7 @@
                 <div class="card">
                     <p>See what people are requesting to be added to the app and make your own suggestions!</p>
                     <a href="{% url 'features' %}" class="btn btn-primary  indexButton" role="button">Features</a>
-                    
+
                 </div>
             </div>
         </div>
@@ -116,6 +110,25 @@
             <p>Made by Unicorn Attractors Corp 2019</p>
         </div>
     </footer>
+
+
+    <div class="modal" tabindex="-1" role="dialog" id="howItWorksModal">
+        <div class="modal-dialog text-center" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title text-center">How it works</h1>
+                </div>
+                <div class="modal-body">
+
+                    <p class="homePagePara">Welcome to the issue tracker and new feature proposer for the brand new Unicorn Attractor App. Here you can make us aware of any issues with the Unicorn Attractor app and also request brand new features for us to add. Issues and features
+                        will be dealt with on a popularity basis so those with the most upvotes will be dealt with first. We here at Unicorn Attractor pledge to spend a minimum of 50% of our time working on your top voted features.</p>
+                    <button class="btn btn-success text-center" data-dismiss="modal" type="submit">Continue</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

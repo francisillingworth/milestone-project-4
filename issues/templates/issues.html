@@ -1,113 +1,103 @@
 {% extends 'base.html' %} {% block content %}
 
-
 <div class="row row-flex">
-    {% if user.is_authenticated %}
-    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
-        <h1>Add your own issue</h1>
-        <p>Can't find the issue you're having? Add your issue to the list <a href="{% url 'NewIssue' %}">here!</a></p>
+  {% if user.is_authenticated %}
+  <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket pageTop">
+    <h1>Add your own issue</h1>
+    <p>Can't find the issue you're having? Add your issue to the list <a href="{% url 'NewIssue' %}">here!</a></p>
+  </div>
+  {% else %}
+  <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket pageTop">
+    <p class="likesText"><a href="{% url 'login' %}">Login</a> to add your own issue</p>
+  </div>
+  {% endif %} {% for issue in issues %}
+  <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
+    <div class="panel-body">
+
+
+      <h2><strong>{{ issue.name }}</strong> - posted by {{ issue.author }}</h2>
+
+      <p class="description">{{ issue.description }}</p>
+
+      {% if user.is_authenticated %}
+      <div class="likes">
+        <p class="likesText">{{ issue.likes.count }} Like(s)</p>
+        <form action="{% url 'like_issue' %}" method="post">
+          {% csrf_token %}
+          <input value="{{ issue.id }}" type="hidden" name="issue">
+          <button type='submit' name='issue_id' value="{{ issue.id }}" class="btn btn-primary">Like this Issue</button>
+        </form>
+
+      </div>
+      {% else %}
+      <div class="likes">
+        <p class="likesText">{{ issue.likes.count }} Like(s)</p>
+      </div>
+      {% endif %} {% if user.is_authenticated %}
+
+
+
+      <p class="commentLink">This Issue has {{ issue.comments.count }} Comments </p>
+      <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
+
+
+
+      <div class="comments" id="comments-{{ forloop.counter }}">
+
+        {% for comment in issue.comments.all %}
+        <p><strong>{{ comment.comment }}</strong> - by {{ comment.author }}</p>
+
+        {% endfor %}
+
+      </div>
+
+      <form class="commentLabel" method="POST">
+        {% csrf_token %} {{ new_comment_form.as_p }}
+        <input value="{{ issue.id }}" type="hidden" name="issue">
+        <button class="btn btn-success" type="submit">Submit New comment</button>
+      </form>
+      {% else %}
+      <p class="commentLink">This Issue has {{ issue.comments.count }} Comments </p>
+      <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
+
+
+
+      <div class="comments" id="comments-{{ forloop.counter }}">
+
+        {% for comment in issue.comments.all %}
+        <p><strong>{{ comment.comment }}</strong> - by {{ comment.author }}</p>
+
+        {% endfor %}
+
+      </div>
+
+      <p class="loginToComment"><a href="{% url 'login' %}">Login</a> to comment or upvote issues and features</p>
+      {% endif %}
+
     </div>
-    {% else %}
-    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
-    <p class= "likesText"><a href="{% url 'login' %}">Login</a> to add your own issue</p>
-    </div>
-    {% endif %}
-    
-    
-    {% for issue in issues %}
-    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
-        <div class="panel-body">
+  </div>
 
-
-            <h2><strong>{{ issue.name }}</strong> - posted by {{ issue.author }}</h2>
-            
-            <p class="description">{{ issue.description }}</p>
-
-            {% if user.is_authenticated %}
-            <div class="likes"> 
-            <p class ="likesText">{{ issue.likes.count }} Like(s)</p>
-            <form action="{% url 'like_issue' %}" method="post">
-                {% csrf_token %}
-                <input value="{{ issue.id }}" type="hidden" name="issue">
-                <button type='submit' name='issue_id' value="{{ issue.id }}" class="btn btn-primary">Like this Issue</button>
-            </form>
-            
-            </div>
-            {% else %}
-            <div class="likes"> 
-            <p class ="likesText">{{ issue.likes.count }} Like(s)</p>
-            </div>
-            {% endif %}
-            
-            
-            {% if user.is_authenticated %}
-            
-            
-
-            <p class="commentLink">This Issue has {{ issue.comments.count }} Comments </p>
-            <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
-            
-            
-            
-            <div class="comments" id="comments-{{ forloop.counter }}">
-
-                {% for comment in issue.comments.all %}
-                <p><strong>{{ comment.comment }}</strong> - by {{ comment.author }}</p>
-
-                {% endfor %}
-
-            </div>
-
-                <form class="commentLabel" method="POST">
-                    {% csrf_token %} {{ new_comment_form.as_p }}
-                    <input value="{{ issue.id }}" type="hidden" name="issue">
-                    <button class="btn btn-success" type="submit">Submit New comment</button>
-                </form>
-                {% else %}
-                <p class="commentLink">This Issue has {{ issue.comments.count }} Comments </p>
-            <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
-            
-            
-            
-            <div class="comments" id="comments-{{ forloop.counter }}">
-
-                {% for comment in issue.comments.all %}
-                <p><strong>{{ comment.comment }}</strong> - by {{ comment.author }}</p>
-
-                {% endfor %}
-
-            </div>
-
-                <p class="loginToComment"><a href="{% url 'login' %}">Login</a> to comment or upvote issues and features</p>
-                {% endif %}
-            
-        </div>
-    </div>
-
-    {% endfor %}
+  {% endfor %}
 </div>
 <div class="text-center">
-{% if issues.has_other_pages %}
+  {% if issues.has_other_pages %}
   <ul class="pagination">
     {% if issues.has_previous %}
-      <li><a href="?page={{ issues.previous_page_number }}">&laquo;</a></li>
+    <li><a href="?page={{ issues.previous_page_number }}">&laquo;</a></li>
     {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
-    {% endif %}
-    {% for i in issues.paginator.page_range %}
-      {% if issues.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
-      {% endif %}
-    {% endfor %}
-    {% if issues.has_next %}
-      <li><a href="?page={{ issues.next_page_number }}">&raquo;</a></li>
+    <li class="disabled"><span>&laquo;</span></li>
+    {% endif %} {% for i in issues.paginator.page_range %} {% if issues.number == i %}
+    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span>
+    </li>
     {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
+    <li><a href="?page={{ i }}">{{ i }}</a></li>
+    {% endif %} {% endfor %} {% if issues.has_next %}
+    <li><a href="?page={{ issues.next_page_number }}">&raquo;</a></li>
+    {% else %}
+    <li class="disabled"><span>&raquo;</span></li>
     {% endif %}
   </ul>
-{% endif %}
+  {% endif %}
 </div>
 
 {% endblock %}

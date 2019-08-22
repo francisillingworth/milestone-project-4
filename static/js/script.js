@@ -1,17 +1,26 @@
 $(document).ready(function() {
-    $(".view_comments").click(function(){
+    $(".view_comments").click(function() {
         var $this = $(this);
-        var index = $this.data("index")
-        $("#comments-"+index).toggle('1000');
+        var index = $this.data("index");
+        $("#comments-" + index).toggle('1000');
     });
-}); 
+});
 
-$('.see_less').click(function(){
+$('.see_less').click(function() {
     var $this = $(this);
     $this.toggleClass('see_less');
-    if($this.hasClass('see_less')){
-        $this.text('View Comments');         
-    } else {
+    if ($this.hasClass('see_less')) {
+        $this.text('View Comments');
+    }
+    else {
         $this.text('Hide Comments');
+    }
+});
+
+
+$(window).on('load', function() {
+    if (!sessionStorage.getItem('shown-modal')) {
+        $('#explainFeaturesModal').modal('show');
+        sessionStorage.setItem('shown-modal', 'true');
     }
 });
