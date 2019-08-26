@@ -1,5 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 
+
+
 <!-- On page load Modal -->
 <div class="modal text-center" tabindex="-1" role="dialog" id="explainFeaturesModal">
     <div class="modal-dialog" role="document">
@@ -38,7 +40,7 @@
         <div class="panel-body">
             <h2><strong>{{ feature.name }}</strong> - posted by {{ feature.author }}</h2>
             <p class="description">{{ feature.description }}</p>
-            
+
             <!-- Feature Likes-->
             {% if user.is_authenticated %}
             <div class="likes">
@@ -111,5 +113,7 @@
 
 </div>
 
+<!-- script tag for modal -->
+<script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
 
 {% endblock %}
