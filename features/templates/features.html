@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %}
 
-
+<!-- script tag for modal -->
+<script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
 
 <!-- On page load Modal -->
 <div class="modal text-center" tabindex="-1" role="dialog" id="explainFeaturesModal">
@@ -113,7 +114,6 @@
 
 </div>
 
-<!-- script tag for modal -->
-<script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
+
 
 {% endblock %}
