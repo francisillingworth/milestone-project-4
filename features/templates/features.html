@@ -1,4 +1,6 @@
 {% extends 'base.html' %} {% block content %}
+
+<!-- On page load Modal -->
 <div class="modal text-center" tabindex="-1" role="dialog" id="explainFeaturesModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -9,7 +11,7 @@
             <div class="modal-body">
 
                 <p class="homePagePara">At Unicorn Attractor we are never fully satisfied. We welcome any new feature ideas that will improve Unicorn Attractor offerings so please send us your ideas and those with the most likes we will dedicate a guarantted 50% of our time
-                    to developing. Please note there is a small fee of £10 to like a feaure that will allow us to continue to prioritise new feature development.</p>
+                    to developing. Please note there is a small fee of £10 to like a feaure that will allow us to continue to prioritise new feature development. Please note that if a feature is liked but not paid for within 48hrs the like will be removed.</p>
                 <button class="btn btn-success center" data-dismiss="modal" type="submit">Continue</button>
 
             </div>
@@ -17,7 +19,7 @@
     </div>
 </div>
 
-
+<!-- Add feature card -->
 <div class="row row-flex">
     {% if user.is_authenticated %}
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket  pageTop">
@@ -28,15 +30,16 @@
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket pageTop">
         <p class="likesText"><a href="{% url 'login' %}">Login</a> to add your own feature</p>
     </div>
-    {% endif %} {% for feature in features %}
+    {% endif %}
+
+    <!-- Feature cards -->
+    {% for feature in features %}
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2  display panel panel-default ticket">
         <div class="panel-body">
-
-
             <h2><strong>{{ feature.name }}</strong> - posted by {{ feature.author }}</h2>
-
             <p class="description">{{ feature.description }}</p>
-
+            
+            <!-- Feature Likes-->
             {% if user.is_authenticated %}
             <div class="likes">
                 <p class="likesText">{{ feature.likes.count }} Like(s)</p>
@@ -45,30 +48,24 @@
                     <input value="{{ feature.id }}" type="hidden" name="feature">
                     <button type='submit' name='feature_id' value="{{ feature.id }}" class="btn btn-primary">Like this Feature</button>
                 </form>
-
             </div>
             {% else %}
             <div class="likes">
                 <p class="likesText">{{ feature.likes.count }} Like(s)</p>
             </div>
-            {% endif %} {% if user.is_authenticated %}
+            {% endif %}
 
-
-
+            <!-- Feature Comments -->
+            {% if user.is_authenticated %}
             <p class="commentLink">This Feature has {{ feature.comments.count }} Comments </p>
             <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
-
-
-
             <div class="comments" id="comments-{{ forloop.counter }}">
-
                 {% for comment in feature.comments.all %}
                 <p><strong>{{ comment.comment }}</strong> - by {{ comment.author }}</p>
-
                 {% endfor %}
-
             </div>
 
+            <!-- Feature comment form-->
             <form class="commentLabel" method="POST">
                 {% csrf_token %} {{ new_comment_form.as_p }}
                 <input value="{{ feature.id }}" type="hidden" name="feature">
@@ -77,27 +74,20 @@
             {% else %}
             <p class="commentLink">This feature has {{ feature.comments.count }} comment(s) </p>
             <p class="see_less commentLink showComments view_comments" data-index="{{ forloop.counter }}"> Show comments</p>
-
-
-
             <div class="comments" id="comments-{{ forloop.counter }}">
-
                 {% for comment in feature.comments.all %}
                 <p><strong>{{ comment.comment }}</strong> - by {{ comment.author }}</p>
-
                 {% endfor %}
-
             </div>
-
             <p class="loginToComment"><a href="{% url 'login' %}">Login</a> to comment or upvote issues and features</p>
             {% endif %}
-
         </div>
     </div>
-
     {% endfor %}
 </div>
 
+
+<!-- Pagination -->
 <div class="text-center">
     {% if features.has_other_pages %}
     <ul class="pagination">

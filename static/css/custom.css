@@ -1,3 +1,4 @@
+/*--------------------------------------  page styling */
 body {
     font-family: Arial;
 
@@ -9,6 +10,23 @@ body {
     max-width: 100%;
     overflow-x: hidden;
 }
+
+footer {
+    border-top: 1px solid #ededed;
+    color: #656565;
+    margin-top: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+}
+
+img {
+    position: fixed;
+    opacity: 0.3;
+    z-index: -1
+}
+
+
 
 .card {
     background-color: #0000001f;
@@ -37,14 +55,6 @@ body {
     margin-bottom: 10px;
 }
 
-footer {
-    border-top: 1px solid #ededed;
-    color: #656565;
-    margin-top: 40px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-
-}
 
 
 .icon-bar {
@@ -55,31 +65,13 @@ footer {
     padding-top: 20px;
 }
 
-.badge {
-    padding-left: 9px;
-    padding-right: 9px;
-    -webkit-border-radius: 9px;
-    -moz-border-radius: 9px;
-    border-radius: 9px;
-}
+
 
 .label-warning[href],
 .badge-warning[href] {
     background-color: #c67605;
 }
 
-.product {
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
-    width: 150px;
-    height: 150px;
-    margin: 0 auto;
-}
-
-caption p {
-    word-wrap: break-word;
-}
 
 .row.row-flex {
     display: flex;
@@ -97,16 +89,6 @@ caption p {
 
 }
 
-.product-description {
-    min-height: 40px;
-}
-
-img {
-    position: fixed;
-    opacity: 0.3;
-    z-index: -1
-}
-
 
 li.profileName {
     color: white;
@@ -117,23 +99,7 @@ li.profileName {
 
 }
 
-@media(min-width:768px) {
-    .profileName {
-        margin-top: 2.7%;
-        margin-right: 30px;
 
-
-    }
-
-}
-
-@media(max-width:768px) {
-    .profileName {
-        margin-top: 2.7%;
-        margin-left: 14px
-    }
-
-}
 
 .ticket {
     background-color: #f1eeee82;
@@ -201,4 +167,27 @@ li.profileName {
 
 .pageTop2{
     margin-top: 60px;
+}
+
+
+    
+
+/*-------------------------------------- @media */
+
+@media(min-width:768px) {
+    .profileName {
+        margin-top: 2.7%;
+        margin-right: 30px;
+
+
+    }
+
+}
+
+@media(max-width:768px) {
+    .profileName {
+        margin-top: 2.7%;
+        margin-left: 14px
+    }
+
 }
