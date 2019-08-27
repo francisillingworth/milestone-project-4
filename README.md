@@ -8,7 +8,7 @@ This project is designed as a platform on which to demonstrate skill across the 
 
 ## Demo
 
-A live demo of the website can be found [here](https://milestone-project-three.herokuapp.com/)
+A live demo of the website can be found [here](https://milestone-project-four.herokuapp.com/)
 
 
 ## UX
@@ -92,10 +92,14 @@ Python - Used for all functionality - CRUD
 
 Django - Framework used to run application
 
+Heroku - Used for Deployment
+
+Postgres Database (mySQL)
+
 .
 ## Testing
 
-
+All automated testing was done using Travis-CI.
 
 ## Deployment
 
@@ -108,4 +112,6 @@ You can also git clone the code to run it locally on your machine via this link 
 
 ## Credits
 
+All Text was written by myself.
 
+The background image was taken from https://www.blackfox.com/ (No copyright infringement intended, as this is for educational use only.)
