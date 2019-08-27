@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/francisillingworth/milestone-project-4.svg?branch=master)](https://travis-ci.org/francisillingworth/milestone-project-4)
+
+
 # Unicorn Attractor Issues and New Features Tracker
 
 This project is designed as a platform on which to demonstrate skill across the full stack, from backend MySQL database management to frontend user centric development. 
